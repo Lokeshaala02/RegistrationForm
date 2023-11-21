@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <form class="form" id="LoginForm">
+      <h2>Login</h2>
+      <p id="message"></p>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        placeholder="Enter Your Email"
+      />
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Enter Your password"
+      />
+
+      <button type="submit">Register</button>
+      <p>New user? <a href="/index.html">Register</a></p>
+    </form>
+
+    <script>
+      const LoginForm = document.getElementById("LoginForm");
+      const message = document.getElementById("message");
+
+      LoginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        if (email === "" || password === "") {
+          alert("Please fill all the fields");
+        } else {
+          const data = {
+            email,
+            password: password,
+          };
+
+          fetch("http://localhost:3000/login", {
+            body: JSON.stringify(data),
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data);
+              message.innerHTML = "Login Sucessful";
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      });
+    </script>
+  </body>
+</html>
